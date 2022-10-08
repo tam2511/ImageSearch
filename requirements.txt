@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+peewee
+python-multipart
+torch
+requests
