@@ -13,7 +13,7 @@ services:
       FASTAPI_PORT: 11111
     volumes:
       - type: bind
-        source: "volume"
+        source: "data"
         target: /mnt
 
   torch_serve_service:
