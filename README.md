@@ -49,6 +49,17 @@ image,id
 - `/search` - takes as input an image and pagination parameters (shift and limit).
 Returns the pagination page for the index search result.
 
+To quickly build this backend realization you can do the following:
+
+```
+cd backend
+docker build -t image_search:0.1 .
+cd ../
+```
+
+*Please note that this implementation may not be effective for your case,
+because stores all data (except images) in memory.*
+
 ## Features
 - Simple project to deploy.
 
