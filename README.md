@@ -14,7 +14,7 @@ in some cases.
 
 ## Model inference
 
-For example you can use cool library TorchServe ([git link](https://github.com/pytorch/serve)).
+For example you can use cool library TorchServe ([source](https://github.com/pytorch/serve)).
 
 We added toy example for emblem recognition problem.
 To quickly build this example you can do the following:
@@ -27,6 +27,8 @@ cd ../
 
 This model was trained on private dataset (7k images, 3k classes).
 Used architecture: EdgeNext ([paper](https://arxiv.org/abs/2206.10589), [code](https://github.com/mmaaz60/EdgeNeXt)).
+Weights (traced) you can download by link: [google drive]("https://drive.google.com/uc?export=download&id=1CGz3_QrEFUFSqeJY52tb0j4KiWjxi730)
+
 
 Obviously, you can use other libraries and models, 
 as well as write your own solution and wrap it in a container.
@@ -64,8 +66,7 @@ because stores all data (except images) in memory.*
 - Simple project to deploy.
 
 You can deploy all services with docker-compose.
-For easy of testing the service, we have added a toy emblem recognition model
-([link]("https://drive.google.com/uc?export=download&id=1CGz3_QrEFUFSqeJY52tb0j4KiWjxi730)).
+For easy of testing the service, we have added a toy emblem recognition model.
 
 - Services are weakly dependent on each other's internal implementation.
 
