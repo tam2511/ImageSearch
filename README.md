@@ -27,8 +27,8 @@ cd ../
 
 This model was trained on private dataset (7k images, 3k classes).
 Used architecture: EdgeNext ([paper](https://arxiv.org/abs/2206.10589), [code](https://github.com/mmaaz60/EdgeNeXt)).
-Weights (traced) you can download by link: [google drive]("https://drive.google.com/uc?export=download&id=1CGz3_QrEFUFSqeJY52tb0j4KiWjxi730)
-
+Weights (traced) you can download by link: [google drive](https://drive.google.com/uc?export=download&id=1CGz3_QrEFUFSqeJY52tb0j4KiWjxi730).
+For training model was used EasyPL library ([source](https://github.com/tam2511/EasyPL)). 
 
 Obviously, you can use other libraries and models, 
 as well as write your own solution and wrap it in a container.
