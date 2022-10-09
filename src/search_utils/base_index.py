@@ -4,30 +4,19 @@ import torch
 
 
 class BaseIndex(object):
-    id_map = []
 
     def search(
             self,
             vector: torch.Tensor
-    ) -> List[Dict]:
+    ) -> Tuple[List, List]:
         idxs, scores = self.native_search(vector)
-        # TODO: fix slow place
-        return [
-            {
-                'id': self.id_map[idx.item()],
-                'score': scores[i].item(),
-                'idx': idx.item()
-            }
-            for i, idx in enumerate(idxs)
-        ]
+        return idxs.tolist(), scores.tolist()
 
     def add(
             self,
-            vectors: torch.Tensor,
-            ids: List[Any]
+            vectors: torch.Tensor
     ):
         self.native_add(vectors)
-        self.id_map += ids
 
     def native_search(
             self,

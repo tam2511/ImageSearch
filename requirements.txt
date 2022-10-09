@@ -1,6 +1,7 @@
 fastapi
 uvicorn
-peewee
 python-multipart
 torch
 requests
+fastapi-pagination
+numpy

@@ -1,0 +1,35 @@
+version: "3.9"
+services:
+  image_search_service:
+    image: "image_search:0.1"
+    ports:
+      - "11111:11111"
+    expose:
+      - 11111
+    networks:
+      - docker_network
+    environment:
+      BACKEND_CONFIG: "/mnt/backend.config"
+      FASTAPI_PORT: 11111
+    volumes:
+      - type: bind
+        source: "C:/Users/Sanek/PycharmProjects/ImageSearch/volume"
+        target: /mnt
+
+  torch_serve_service:
+    image: "torch_serve:0.1"
+    expose:
+      - 8080
+    ports:
+      - "8080:8080"
+    networks:
+      - docker_network
+    command:
+      - torchserve --start
+      - --model-store=/tmp/model_store
+      - --models=edgenext=edgenext_arcface.mar
+      - --ts-config=config.properties
+
+networks:
+  docker_network:
+    driver: bridge

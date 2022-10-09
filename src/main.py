@@ -1,41 +1,19 @@
 from fastapi import FastAPI, File, UploadFile
-from pydantic import BaseSettings
-from fastapi.middleware.cors import CORSMiddleware
+from fastapi_pagination import paginate, add_pagination, LimitOffsetPage
+from pydantic import BaseModel
 
 from src.handler import Handler
 
 handler = Handler()
 
-
-class Settings(BaseSettings):
-    # ... The rest of our FastAPI settings
-
-    BASE_URL = "http://localhost:8000"
-    USE_NGROK = True
-
-
-settings = Settings()
-
-
-def init_webhooks(base_url):
-    # Update inbound traffic via APIs to use the public-facing ngrok URL
-    pass
-
-
 app = FastAPI()
 
-origins = [
-    "http://localhost",
-    "http://localhost:8080",
-]
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+class ImageResult(BaseModel):
+    id: str
+    image_path: str
+    score: float
+
 
 
 @app.post("/upload_zip")
@@ -44,7 +22,9 @@ async def upload_zip(zip_file: UploadFile = File(...)):
     return {"message": f"Successfully uploaded {zip_file.filename}"}
 
 
-@app.post("/search")
-async def upload_zip(image: UploadFile = File(...), number_images: int = 10):
-    result = handler.search(image.file.read(), number_images)
+@app.post("/search", response_model=LimitOffsetPage[ImageResult])
+async def search(image: UploadFile = File(...)):
+    result = paginate(handler.search(image.file.read()))
     return result
+
+add_pagination(app)

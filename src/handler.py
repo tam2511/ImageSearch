@@ -1,17 +1,27 @@
 from typing import List, Dict
-import base64
+import json
+import os
 
 from src.torch_serve_utils.wrapper import TorchServeWrapper
 from src.file_utils.zip_utils import ZipReader
 from src.search_utils.matrix_index import MatrixIndex
-from src.db_utils.sqlite_utils import SqlitePeeweeWrapper
+from src.db_utls.alphabet_store import AlphabetStore
 
 
 class Handler(object):
     def __init__(self):
-        self.model = TorchServeWrapper('')
+        self.cfg = json.load(open(
+            os.environ['BACKEND_CONFIG'],
+            'r'
+        ))
+        self.model = TorchServeWrapper(
+            api_url=self.cfg['torch_serve']['api_url']
+        )
         self.search_index = MatrixIndex()
-        self.db_connector = SqlitePeeweeWrapper('test.db')
+        self.store = AlphabetStore(
+            images_path=self.cfg['store']['images_path'],
+            max_size=self.cfg['store']['max_size']
+        )
 
     def upload(
             self,
@@ -23,24 +33,28 @@ class Handler(object):
 
         for row in zip_reader:
             images_batch.append(row['image'])
-            ids_batch.append(str(row['id']))
-            if len(images_batch) == 32:
+            ids_batch.append(int(row['id']))
+            if len(images_batch) == self.cfg['batch_size']:
                 embeds = self.model(images_batch)
-                self.search_index.add(embeds, ids_batch)
-                self.db_connector.add(images_batch, ids_batch)
+                self.search_index.add(embeds)
+                self.store.add(images_batch, ids_batch)
         if len(images_batch) > 0:
             embeds = self.model(images_batch)
-            self.search_index.add(embeds, ids_batch)
-            self.db_connector.add(images_batch, ids_batch)
+            self.search_index.add(embeds)
+            self.store.add(images_batch, ids_batch)
 
     def search(
             self,
             image_file: bytes,
-            number_images: int
     ) -> List[Dict]:
         embedding = self.model([image_file]).squeeze(0)
-        result = self.search_index.search(embedding)[:number_images]
-        for idx in range(len(result)):
-            result[idx]['image'] = base64.b64encode(self.db_connector.select([idx])[0]['image_blob'])
-            del result[idx]['idx']
-        return result
+        idxs, scores = self.search_index.search(embedding)
+        data = self.store.select(idxs)
+        return [
+            {
+                'id': data[i]['id'],
+                'image_path': data[i]['image_path'],
+                'score': scores[i]
+            }
+            for i in range(len(data))
+        ]
