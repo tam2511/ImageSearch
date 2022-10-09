@@ -1,0 +1,23 @@
+@import "gallery";
+
+.header {
+  &-container {
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+  &-buttons {
+    &_item {
+      &:not(:first-child) {
+        margin-left: 10px;
+      }
+      &__link {
+        color: #4f4f4f;
+        cursor: pointer;
+        transition: color 0.3s;
+        &:hover {
+          color: #000;
+        }
+      }
+    }
+  }
+}

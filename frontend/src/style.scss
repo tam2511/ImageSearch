@@ -1,0 +1,17 @@
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+}
+
+#app {
+  @media screen and (min-width: 480px) {
+    margin: 0 auto;
+    max-width: 90%;
+  }
+}
+
+@import "src/style/reset";
+@import "src/style/header/style";
+@import "src/style/common/style";
