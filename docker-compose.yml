@@ -13,7 +13,7 @@ services:
       FASTAPI_PORT: 11111
     volumes:
       - type: bind
-        source: "C:/Users/Sanek/PycharmProjects/ImageSearch/volume"
+        source: "volume"
         target: /mnt
 
   torch_serve_service:
