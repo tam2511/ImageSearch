@@ -6,9 +6,21 @@
 }
 
 #app {
+
+  height: 100vh;
+  overflow: hidden;
+
   @media screen and (min-width: 480px) {
     margin: 0 auto;
     max-width: 90%;
+  }
+}
+
+main {
+  display: flex;
+
+  @media screen and (max-width: 1024px) {
+    flex-flow: row wrap;
   }
 }
 

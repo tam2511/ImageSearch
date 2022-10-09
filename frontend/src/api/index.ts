@@ -20,7 +20,7 @@ const generateTestData = (images: string[]) => {
 }
 
 const testData: ImageItem[] = generateTestData(
-	MockData.testImages
+	MockData.testImages2
 ) as unknown as ImageItem[]
 
 // const doPostRequest = async (api: string, body: unknown) => {

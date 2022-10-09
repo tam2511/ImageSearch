@@ -6,10 +6,30 @@
   --total-gap-width: calc(var(--gap-count) * var(--grid-layout-gap));
   --grid-item--max-width: calc((100% - var(--total-gap-width)) / var(--grid-column-count));
 
-  margin: 2rem 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(max(var(--grid-item--min-width), var(--grid-item--max-width)), 1fr));
-  grid-gap: 15px;
+  margin-top: 20px;
+  width: 100%;
+
+  &-images {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(max(var(--grid-item--min-width), var(--grid-item--max-width)), 1fr));
+    grid-gap: 15px;
+    height: calc(100vh - 120px);
+    overflow-y: auto;
+
+    @media screen and (max-width: 1024px)  {
+      height: calc(100vh - 365px);
+    }
+  }
+
+  &-images_active + &-actions {
+    display: flex;
+  }
+
+  &-actions {
+    padding: 10px;
+    display: none;
+    justify-content: center;
+  }
 }
 figure {
   img {
@@ -17,4 +37,7 @@ figure {
     height: calc(100% - 20px);
     object-fit: cover;
   }
+}
+.user-file {
+  margin-top: 10px;
 }
