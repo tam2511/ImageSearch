@@ -1,27 +1,27 @@
 import { ImageItem } from '../models'
-import MockData from './mockData'
+// import MockData from './mockData'
 
 const API_URL = '/api'
 
-const min = () => Math.floor(Math.random() * 1000000)
+// const min = () => Math.floor(Math.random() * 1000000)
+//
+// const generateTestData = (images: string[]) => {
+// 	const result = []
+//
+// 	for (let i = 0; i < images.length; i++) {
+// 		result.push({
+// 			score: `0.${Math.round(min() + Math.random() * 100000)}`,
+// 			id: Math.random() * 10,
+// 			image: images[i]
+// 		})
+// 	}
+//
+// 	return result
+// }
 
-const generateTestData = (images: string[]) => {
-	const result = []
-
-	for (let i = 0; i < images.length; i++) {
-		result.push({
-			score: `0.${Math.round(min() + Math.random() * 100000)}`,
-			id: Math.random() * 10,
-			image: images[i]
-		})
-	}
-
-	return result
-}
-
-const testData: ImageItem[] = generateTestData(
-	MockData.testImages2
-) as unknown as ImageItem[]
+// const testData: ImageItem[] = generateTestData(
+// 	MockData.testImages2
+// ) as unknown as ImageItem[]
 
 // const doPostRequest = async (api: string, body: unknown) => {
 // 	const response = await fetch(`${API_URL}/${api}`, {
@@ -57,15 +57,18 @@ const doUploadRequest = async (
 		return undefined
 	}
 }
+//
+// const getTestImages = async (url: string, data: unknown) => {
+// 	console.debug(url, data)
+// 	return await new Promise((resolve) => {
+// 		setTimeout(() => {
+// 			resolve(testData)
+// 			return testData
+// 		}, 2000)
+// 	})
+// }
 
-const getTestImages = async (url: string, data: unknown) => {
-	console.debug(url, data)
-	return await new Promise((resolve) => {
-		setTimeout(() => {
-			resolve(testData)
-			return testData
-		}, 2000)
-	})
+export default {
+	doUploadRequest
+	// getTestImages
 }
-
-export default { doUploadRequest, getTestImages }

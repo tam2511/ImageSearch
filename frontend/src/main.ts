@@ -41,7 +41,7 @@ const getImages = async () => {
 
 	formData.set('image', file)
 
-	return await API.getTestImages('search?number_images=10', formData)
+	return await API.doUploadRequest('search?number_images=10', formData)
 }
 const renderImages = (images: ImageItem[]) => {
 	const gallery = document.querySelector(SELECTORS.galleryImages)
