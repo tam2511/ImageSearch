@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Vite App</title>
+	</head>
+	<body>
+		<div id="app">
+			<header class='header'>
+				<div class='header-container flex j-between'>
+					<div class='header-logo'>ImageSearch </div>
+					<div class='header-buttons flex j-between'>
+						<div class='header-buttons_item header-buttons_item__link' data-action='faq'>FAQ</div>
+						<div class='header-buttons_item header-buttons_item__link' data-action='upload'>UPLOAD ZIP</div>
+					</div>
+				</div>
+			</header>
+			<main>
+				<section class='search'>
+					<form enctype="multipart/form-data">
+						<label>
+							Выберите файл
+							<input type='file' accept="image/*" placeholder="Upload an image">
+						</label>
+						<button data-action='search' type='button'>Поиск</button>
+					</form>
+					<div class="user-file">
+						<img class="user-file_preview" src="" alt="" height="200">
+					</div>
+				</section>
+				<section class='gallery'>
+					<div class="gallery-images"></div>
+					<div class="gallery-actions">
+						<button type="button" data-action="pagination">Загрузить больше</button>
+					</div>
+				</section>
+			</main>
+			<footer></footer>
+		</div>
+		<script type="module" src="/src/main.ts"></script>
+	</body>
+</html>
