@@ -41,7 +41,7 @@ const getImages = async () => {
 
 	formData.set('image', file)
 
-	return await API.doUploadRequest('search?number_images=10', formData)
+	return await API.doUploadRequest('search', formData, state.offset)
 }
 const renderImages = (images: ImageItem[]) => {
 	const gallery = document.querySelector(SELECTORS.galleryImages)
@@ -60,6 +60,7 @@ const renderImages = (images: ImageItem[]) => {
 const doActions = async (action: Actions) => {
 	switch (action) {
 		case 'search':
+			state.offset = 0
 			state.isLoading = true
 
 			const images = (await getImages()) as unknown as ImageItem[]

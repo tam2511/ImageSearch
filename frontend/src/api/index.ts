@@ -40,10 +40,11 @@ const API_URL = '/api'
 
 const doUploadRequest = async (
 	api: string,
-	formData: BodyInit | null | undefined
+	formData: BodyInit | null | undefined,
+	offset: number
 ): Promise<ImageItem[] | undefined> => {
 	try {
-		const response = await fetch(`${API_URL}/${api}`, {
+		const response = await fetch(`${API_URL}/${api}/?limit=50&offset=${offset}`, {
 			method: 'POST',
 			headers: {
 				Accept: 'application/json'
