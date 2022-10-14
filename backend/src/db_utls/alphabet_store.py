@@ -47,18 +47,9 @@ class AlphabetStore(BaseStore):
             self,
             images: List[bytes],
             ids: List[int]
-    ) -> Tuple[int, str]:
-        message = '{} images have been added'
-
+    ) -> int:
         current_size = self.it
         residue = self.max_size - current_size
-        if residue < len(images):
-            message += ', the remaining {} images do not fit into the maximum size of AlphabetStore'.format(
-                len(images) - residue
-            )
-        message = message.format(
-            residue if residue < len(images) else len(images)
-        )
         self.ids = np.concatenate((self.ids, ids))
         images_paths = []
         for image in images:
@@ -72,10 +63,7 @@ class AlphabetStore(BaseStore):
                 file.write(image)
 
         self.images_paths = np.concatenate((self.images_paths, images_paths))
-        return (
-            residue if residue < len(images) else len(images),
-            message
-        )
+        return residue if residue < len(images) else len(images)
 
     def select(
             self,

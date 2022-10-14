@@ -15,16 +15,20 @@ class ImageResult(BaseModel):
     score: float
 
 
+class UploadZipResult(BaseModel):
+    added_count: int
 
-@app.post("/upload_zip")
+
+@app.post("/upload_zip", response_model=UploadZipResult)
 async def upload_zip(zip_file: UploadFile = File(...)):
-    handler.upload(zip_file.file.read())
-    return {"message": f"Successfully uploaded {zip_file.filename}"}
+    added_count = handler.upload(zip_file.file.read())
+    return {"added_count": added_count}
 
 
 @app.post("/search", response_model=LimitOffsetPage[ImageResult])
 async def search(image: UploadFile = File(...)):
     result = paginate(handler.search(image.file.read()))
     return result
+
 
 add_pagination(app)

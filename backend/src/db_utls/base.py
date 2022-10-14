@@ -6,7 +6,7 @@ class BaseStore(object):
             self,
             images: List[bytes],
             ids: List[str]
-    ) -> Tuple[int, str]:
+    ) -> int:
         raise NotImplementedError
 
     def select(

@@ -27,6 +27,14 @@ class Handler(object):
             self,
             zip_file: bytes
     ):
+        added_count = 0
+
+        def add(images_batch: List, ids_batch: List):
+            nonlocal added_count
+            embeds = self.model(images_batch)
+            self.search_index.add(embeds)
+            added_count += self.store.add(images_batch, ids_batch)
+
         zip_reader = ZipReader(zip_file)
 
         images_batch, ids_batch = [], []
@@ -35,13 +43,10 @@ class Handler(object):
             images_batch.append(row['image'])
             ids_batch.append(int(row['id']))
             if len(images_batch) == self.cfg['batch_size']:
-                embeds = self.model(images_batch)
-                self.search_index.add(embeds)
-                self.store.add(images_batch, ids_batch)
+                add(images_batch=images_batch, ids_batch=ids_batch)
         if len(images_batch) > 0:
-            embeds = self.model(images_batch)
-            self.search_index.add(embeds)
-            self.store.add(images_batch, ids_batch)
+            add(images_batch=images_batch, ids_batch=ids_batch)
+        return added_count
 
     def search(
             self,
