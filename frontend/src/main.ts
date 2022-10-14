@@ -4,10 +4,17 @@ import { ImageItem } from './models'
 
 type Actions = 'search' | 'faq' | 'upload' | 'pagination'
 
+const constants = {
+	additionalOffset: 50
+}
+
 const SELECTORS = {
 	galleryImages: '.gallery-images',
 	formInput: '.search input[type="file"]',
 	userFilePreview: '.user-file_preview'
+}
+const CLASSES = {
+	galleryImagesActive: 'gallery-images_active'
 }
 
 // let isLoading = false
@@ -54,12 +61,21 @@ const renderImages = (images: ImageItem[]) => {
 		gallery.insertAdjacentHTML('beforeend', imageElement)
 	}
 
-	gallery.classList.add('gallery-images_active')
+	gallery.classList.add(CLASSES.galleryImagesActive)
+}
+
+const clearImages = () => {
+	const gallery = document.querySelector(SELECTORS.galleryImages)
+
+	if (!gallery) return
+
+	gallery.innerHTML = ''
 }
 
 const doActions = async (action: Actions) => {
 	switch (action) {
 		case 'search':
+			clearImages()
 			state.offset = 0
 			state.isLoading = true
 
@@ -72,7 +88,7 @@ const doActions = async (action: Actions) => {
 			renderImages(images)
 			break
 		case 'pagination':
-			state.offset += 10
+			state.offset += constants.additionalOffset
 			await doActions('search')
 	}
 }
