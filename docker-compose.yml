@@ -16,6 +16,17 @@ services:
         source: "data"
         target: /mnt
 
+      - static-content:/images
+
+  frontend:
+    image: "image_search_frontend:0.1"
+    ports:
+      - "22222:22222"
+    networks:
+      - docker_network
+    volumes:
+      - static-content:/usr/share/nginx/html/public
+
   torch_serve_service:
     image: "torch_serve:0.1"
     expose:
@@ -33,3 +44,6 @@ services:
 networks:
   docker_network:
     driver: bridge
+
+volumes:
+  static-content:
