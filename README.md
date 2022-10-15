@@ -55,12 +55,45 @@ To quickly build this backend realization you can do the following:
 
 ```
 cd backend
-docker build -t image_search:0.1 .
+docker build -t image_search_backend:0.1 .
 cd ../
 ```
 
 *Please note that this implementation may not be effective for your case,
 because stores all data (except images) in memory.*
+
+## Frontend part
+
+To quickly build this frontend static server you can do the following:
+
+```
+cd frontend
+docker build -t image_search_frontend:0.1 .
+cd ../
+```
+
+## Start guide
+
+To quickly start these services you can use our docker compose config from root directory of project:
+
+```
+docker compose up
+```
+
+And if we combine all steps then get next instruction:
+
+```
+cd torch_serve_example
+docker build -t torch_serve:0.1 .
+cd ../
+cd backend
+docker build -t image_search_backend:0.1 .
+cd ../
+cd frontend
+docker build -t image_search_frontend:0.1 .
+cd ../
+docker compose up
+```
 
 ## Features
 - Simple project to deploy.
