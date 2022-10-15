@@ -25,6 +25,7 @@ const uploadFileOnServer = async () => {
 	const fileInput = document.querySelector(
 		SELECTORS.formZipInput
 	) as HTMLInputElement
+	const uploadButton = document.querySelector(SELECTORS.buttonUploadZip)
 
 	const zipFile = fileInput && fileInput.files && fileInput.files[0]
 
@@ -32,7 +33,7 @@ const uploadFileOnServer = async () => {
 
 	if (!fileInput || !zipFile) return
 
-	fileInput.classList.add('is-loading')
+	if (uploadButton) uploadButton.classList.add('is-loading')
 
 	formData.set('zip_file', zipFile)
 
@@ -41,7 +42,7 @@ const uploadFileOnServer = async () => {
 	} catch (e) {
 		console.error('uploadFileOnServer, e:',e)
 	} finally {
-		fileInput.classList.remove('is-loading')
+		if (uploadButton) uploadButton.classList.remove('is-loading')
 	}
 
 	return response
@@ -53,11 +54,15 @@ const getImages = async (offset: number) => {
 	const imageInput = document.querySelector(
 		SELECTORS.formImageInput
 	) as HTMLInputElement
+	const uploadButton = document.querySelector(SELECTORS.buttonInitialSearch)
+
 
 	const file = imageInput && imageInput.files && imageInput.files[0]
 	const formData = new FormData()
 
 	if (!imageInput || !file) return
+
+	if (uploadButton) uploadButton.classList.add('is-loading')
 
 	formData.set('image', file)
 	try {
@@ -65,7 +70,7 @@ const getImages = async (offset: number) => {
 	} catch (e) {
 		console.error('getImages, e:',e)
 	} finally {
-		imageInput.classList.remove('is-loading')
+		if (uploadButton) imageInput.classList.remove('is-loading')
 	}
 
 	return response
