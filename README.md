@@ -56,12 +56,6 @@ because stores all data (except images) in memory.*
 To quickly start these services you can use our docker compose config from root directory of project:
 
 ```
-docker compose up
-```
-
-And if we combine all steps then get next instruction:
-
-```
 docker compose build
 docker compose up
 ```
