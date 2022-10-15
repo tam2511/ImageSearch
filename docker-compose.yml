@@ -27,7 +27,7 @@ services:
     networks:
       - docker_network
     volumes:
-      - static-content:/usr/share/nginx/html/public
+      - static-content:/usr/share/nginx/html
 
   torch_serve_service:
     image: "torch_serve:0.1"
