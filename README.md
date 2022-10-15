@@ -17,13 +17,6 @@ in some cases.
 For example you can use cool library TorchServe ([source](https://github.com/pytorch/serve)).
 
 We added toy example for emblem recognition problem.
-To quickly build this example you can do the following:
-
-```
-cd torch_serve_example
-docker build -t torch_serve:0.1 .
-cd ../
-```
 
 This model was trained on private dataset (7k images, 3k classes).
 Used architecture: EdgeNext ([paper](https://arxiv.org/abs/2206.10589), [code](https://github.com/mmaaz60/EdgeNeXt)).
@@ -51,26 +44,12 @@ image,id
 - `/search` - takes as input an image and pagination parameters (shift and limit).
 Returns the pagination page for the index search result.
 
-To quickly build this backend realization you can do the following:
-
-```
-cd backend
-docker build -t image_search_backend:0.1 .
-cd ../
-```
-
 *Please note that this implementation may not be effective for your case,
 because stores all data (except images) in memory.*
 
 ## Frontend part
 
-To quickly build this frontend static server you can do the following:
-
-```
-cd frontend
-docker build -t image_search_frontend:0.1 .
-cd ../
-```
+...
 
 ## Start guide
 
@@ -83,15 +62,7 @@ docker compose up
 And if we combine all steps then get next instruction:
 
 ```
-cd torch_serve_example
-docker build -t torch_serve:0.1 .
-cd ../
-cd backend
-docker build -t image_search_backend:0.1 .
-cd ../
-cd frontend
-docker build -t image_search_frontend:0.1 .
-cd ../
+docker compose build
 docker compose up
 ```
 
