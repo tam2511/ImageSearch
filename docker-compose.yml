@@ -1,7 +1,8 @@
 version: "3.9"
 services:
   backend:
-    image: "image_search_backend:0.1"
+    build: ./backend
+    image: "image_search/backend:0.1"
     ports:
       - "11111:11111"
     expose:
@@ -19,7 +20,8 @@ services:
       - static-content:/images
 
   frontend:
-    image: "image_search_frontend:0.1"
+    build: ./frontend
+    image: "image_search/frontend:0.1"
     ports:
       - "22222:22222"
     expose:
@@ -30,7 +32,8 @@ services:
       - static-content:/usr/share/nginx/html
 
   torch_serve_service:
-    image: "torch_serve:0.1"
+    build: ./torch_serve_example
+    image: "image_search/torch_serve:0.1"
     expose:
       - 8080
     ports:
