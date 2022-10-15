@@ -1,6 +1,6 @@
 version: "3.9"
 services:
-  image_search_service:
+  backend:
     image: "image_search_backend:0.1"
     ports:
       - "11111:11111"
@@ -22,6 +22,8 @@ services:
     image: "image_search_frontend:0.1"
     ports:
       - "22222:22222"
+    expose:
+      - 22222
     networks:
       - docker_network
     volumes:
