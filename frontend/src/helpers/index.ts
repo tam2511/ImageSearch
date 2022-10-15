@@ -21,47 +21,68 @@ const createImage = (imageItem: ImageItem) => {
 }
 
 const uploadFileOnServer = async () => {
+	let response = undefined
 	const fileInput = document.querySelector(
 		SELECTORS.formZipInput
 	) as HTMLInputElement
 
 	const zipFile = fileInput && fileInput.files && fileInput.files[0]
+
 	const formData = new FormData()
 
 	if (!fileInput || !zipFile) return
 
+	fileInput.classList.add('is-loading')
+
 	formData.set('zip_file', zipFile)
 
-	return await API.doUploadRequest('upload_zip', formData)
+	try {
+		response = await API.doUploadRequest('upload_zip', formData)
+	} catch (e) {
+		console.error('uploadFileOnServer, e:',e)
+	} finally {
+		fileInput.classList.remove('is-loading')
+	}
+
+	return response
 }
 
 const getImages = async (offset: number) => {
-	const image = document.querySelector(
+	let response = undefined
+
+	const imageInput = document.querySelector(
 		SELECTORS.formImageInput
 	) as HTMLInputElement
 
-	const file = image && image.files && image.files[0]
+	const file = imageInput && imageInput.files && imageInput.files[0]
 	const formData = new FormData()
 
-	if (!image || !file) return
+	if (!imageInput || !file) return
 
 	formData.set('image', file)
+	try {
+		response = await API.doUploadRequest('search', formData, `/?limit=50&offset=${offset}`)
+	} catch (e) {
+		console.error('getImages, e:',e)
+	} finally {
+		imageInput.classList.remove('is-loading')
+	}
 
-	return await API.doUploadRequest('search', formData, `/?limit=50&offset=${offset}`)
+	return response
 }
 
 const renderImages = (images: ImageSearchResponse) => {
-	console.log('images: ', images)
-	if (!images || (images && !images.total)) {
-		console.error('ImageSearch, don\'t have result images')
-		return
-	}
-
-	const items = images.items
+	const { items, limit } = images
 
 	const gallery = document.querySelector(SELECTORS.galleryImages)
 
 	if (!gallery) return
+
+	if (!items.length) {
+		gallery.classList.remove(CLASSES.galleryImagesActive)
+	} else if (items.length === limit ){
+		gallery.classList.add(CLASSES.galleryImagesActive)
+	}
 
 	for (let i = 0; i < items.length; i++) {
 		const imageElement = createImage(items[i])
@@ -69,7 +90,36 @@ const renderImages = (images: ImageSearchResponse) => {
 		gallery.insertAdjacentHTML('beforeend', imageElement)
 	}
 
-	gallery.classList.add(CLASSES.galleryImagesActive)
+}
+
+const setPreviewAndLabel = () => {
+	const inputImage = document.querySelector(SELECTORS.formImageInput)
+	const labelImage = document.querySelector(SELECTORS.formImageLabel)
+	const inputZip = document.querySelector(SELECTORS.formZipInput)
+	const labelZip = document.querySelector(SELECTORS.formZipLabel)
+	const userPreview = document.querySelector(SELECTORS.userFilePreview)
+
+	const inputs = [{
+		input: inputImage,
+		label: labelImage,
+		preview: userPreview as HTMLImageElement
+	}, {
+		input: inputZip,
+		label: labelZip
+	}]
+
+	inputs.forEach((item) => {
+		if (item.input && item.label) {
+			item.input.addEventListener('input', (e) => {
+				const target = e.target as HTMLInputElement
+				if (target.files && target.files[0]) {
+					if (item.label) item.label.textContent = target.files[0].name
+
+					if (item.preview) item.preview.src = URL.createObjectURL(target.files[0])
+				}
+			})
+		}
+	})
 }
 
 export default {
@@ -77,5 +127,6 @@ export default {
 	clearImages,
 	createImage,
 	renderImages,
-	uploadFileOnServer
+	uploadFileOnServer,
+	setPreviewAndLabel
 }

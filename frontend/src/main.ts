@@ -1,7 +1,7 @@
 import './style.scss'
 import Helpers from './helpers'
 import { Actions } from './models'
-import { CONSTANTS, SELECTORS } from './constanst'
+import { CONSTANTS } from './constanst'
 
 const state = {
 	isLoading: false,
@@ -56,23 +56,9 @@ const doActions = async (action: Actions) => {
 	}
 }
 
+
 const init = async () => {
-	const input = document.querySelector(SELECTORS.formImageInput)
-
-	if (input) {
-		input.addEventListener('input', (e) => {
-			const target = e.target as HTMLInputElement
-			if (target.files && target.files[0]) {
-				const userPreviewFile = document.querySelector(
-					SELECTORS.userFilePreview
-				) as HTMLImageElement
-
-				if (!userPreviewFile) return
-
-				userPreviewFile.src = URL.createObjectURL(target.files[0])
-			}
-		})
-	}
+	Helpers.setPreviewAndLabel()
 
 	document.addEventListener('click', async ({ target }) => {
 		const action = (target as HTMLButtonElement)?.dataset.action as Actions

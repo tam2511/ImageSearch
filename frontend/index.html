@@ -12,36 +12,36 @@
 				<div class='header-container flex j-between'>
 					<div class='header-logo'>ImageSearch </div>
 					<div class='header-buttons flex j-between'>
-						<div class='header-buttons_item header-buttons_item__link' data-action='faq'>FAQ</div>
-						<div class='header-buttons_item header-buttons_item__link' data-action='upload'>UPLOAD ZIP</div>
+<!--						<div class='header-buttons_item header-buttons_item__link' data-action='faq'>FAQ</div>-->
+<!--						<div class='header-buttons_item header-buttons_item__link' data-action='upload'>UPLOAD ZIP</div>-->
 					</div>
 				</div>
 			</header>
 			<main>
 				<section class='search'>
 					<form class='search-image__form' enctype="multipart/form-data">
-						<label>
-							Choose file
-							<input type='file' accept="image/*" placeholder="Upload an image">
-						</label>
-						<button data-action='initial-search' type='button'>Поиск</button>
+						<input id='image-upload' class='input input-file is-hidden' type='file' accept="image/*" placeholder="Upload an image">
+						<label for='image-upload' class='btn-2'>Choose image</label>
+						<button data-action='initial-search' type='button'>Search</button>
 					</form>
 					<div class="user-file">
-						<img class="user-file_preview" src="" alt="" height="200">
+						<img class="user-file_preview" src="" alt="" height="200" width='250'>
 					</div>
-					<hr>
 					<form class='upload-zip__form' enctype="multipart/form-data">
-						<label>
-							Choose file
-							<input type='file' placeholder="Upload an image">
-						</label>
-						<button data-action='upload-zip' type='button'>Upload zip</button>
+						<input id='zip-file' class='input input-file is-hidden'  type='file' placeholder="Upload an image">
+						<label for='zip-file' class='btn-2'>Choose file</label>
+						<button data-action='upload-zip' type='button'>
+							<svg class="spinner" viewBox="0 0 50 50">
+								<circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+							</svg>
+							<span>Upload zip</span>
+						</button>
 					</form>
 				</section>
 				<section class='gallery'>
 					<div class="gallery-images"></div>
 					<div class="gallery-actions">
-						<button type="button" data-action="pagination">Загрузить больше</button>
+						<button type="button" data-action="pagination">Load more...</button>
 					</div>
 				</section>
 			</main>
