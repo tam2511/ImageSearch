@@ -19,16 +19,24 @@
 			</header>
 			<main>
 				<section class='search'>
-					<form enctype="multipart/form-data">
+					<form class='search-image__form' enctype="multipart/form-data">
 						<label>
-							Выберите файл
+							Choose file
 							<input type='file' accept="image/*" placeholder="Upload an image">
 						</label>
-						<button data-action='search' type='button'>Поиск</button>
+						<button data-action='initial-search' type='button'>Поиск</button>
 					</form>
 					<div class="user-file">
 						<img class="user-file_preview" src="" alt="" height="200">
 					</div>
+					<hr>
+					<form class='upload-zip__form' enctype="multipart/form-data">
+						<label>
+							Choose file
+							<input type='file' placeholder="Upload an image">
+						</label>
+						<button data-action='upload-zip' type='button'>Upload zip</button>
+					</form>
 				</section>
 				<section class='gallery'>
 					<div class="gallery-images"></div>

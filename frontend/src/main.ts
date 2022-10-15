@@ -1,108 +1,63 @@
 import './style.scss'
-import API from './api'
-import { ImageItem } from './models'
+import Helpers from './helpers'
+import { Actions } from './models'
+import { CONSTANTS, SELECTORS } from './constanst'
 
-type Actions = 'search' | 'faq' | 'upload' | 'pagination'
-
-const constants = {
-	additionalOffset: 50
-}
-
-const SELECTORS = {
-	galleryImages: '.gallery-images',
-	formInput: '.search input[type="file"]',
-	userFilePreview: '.user-file_preview'
-}
-const CLASSES = {
-	galleryImagesActive: 'gallery-images_active'
-}
-
-// let isLoading = false
 const state = {
 	isLoading: false,
 	offset: 0
 }
 
-const createImage = (imageItem: ImageItem) => {
-	// const prefix = 'data:image/jpeg;base64,'
-	// const src = prefix + imageItem.image
+const uploadZip = async () => {
+	state.isLoading = true
 
-	return `
-		<figure>
-			<img src="${imageItem.image}"
-					 alt="${imageItem.id}">
-			<figcaption>Score: ${imageItem.score}</figcaption>
-		</figure>
-	`
+	await Helpers.uploadFileOnServer()
+
+	state.isLoading = false
 }
 
-const getImages = async () => {
-	const image = document.querySelector(
-		SELECTORS.formInput
-	) as HTMLInputElement
-
-	const file = image && image.files && image.files[0]
-	const formData = new FormData()
-
-	if (!image || !file) return
-
-	formData.set('image', file)
-
-	return await API.doUploadRequest('search', formData, state.offset)
-}
-const renderImages = (images: ImageItem[]) => {
-	const gallery = document.querySelector(SELECTORS.galleryImages)
-
-	if (!gallery) return
-
-	for (let i = 0; i < images.length; i++) {
-		const imageElement = createImage(images[i])
-
-		gallery.insertAdjacentHTML('beforeend', imageElement)
-	}
-
-	gallery.classList.add(CLASSES.galleryImagesActive)
+const initialSearch = async () => {
+	Helpers.clearImages()
+	state.offset = 0
+	await doActions('search')
 }
 
-const clearImages = () => {
-	const gallery = document.querySelector(SELECTORS.galleryImages)
+const search = async () => {
+	state.isLoading = true
 
-	if (!gallery) return
+	const images = await Helpers.getImages(state.offset)
 
-	gallery.innerHTML = ''
+	state.isLoading = false
+
+	if (!images) return
+
+	Helpers.renderImages(images)
+}
+
+const pagination = async () => {
+	state.offset += CONSTANTS.additionalOffset
+	await doActions('search')
 }
 
 const doActions = async (action: Actions) => {
 	switch (action) {
+		case 'initial-search':
+			await initialSearch()
+			break
 		case 'search':
-			clearImages()
-			state.offset = 0
-			state.isLoading = true
-
-			const images = (await getImages()) as unknown as ImageItem[]
-
-			state.isLoading = false
-
-			if (!images) return
-
-			renderImages(images)
+			await search()
 			break
 		case 'pagination':
-			state.offset += constants.additionalOffset
-			await doActions('search')
+			await pagination()
+			break
+		case 'upload-zip':
+			await uploadZip()
+			break
 	}
 }
 
-document.addEventListener('click', async ({ target }) => {
-	const action = (target as HTMLButtonElement)?.dataset.action as Actions
-
-	if (!action) return
-
-	await doActions(action)
-})
-
 const init = async () => {
-	const input = document.querySelector(SELECTORS.formInput)
+	const input = document.querySelector(SELECTORS.formImageInput)
 
 	if (input) {
 		input.addEventListener('input', (e) => {
@@ -118,6 +73,14 @@ const init = async () => {
 			}
 		})
 	}
+
+	document.addEventListener('click', async ({ target }) => {
+		const action = (target as HTMLButtonElement)?.dataset.action as Actions
+
+		if (!action) return
+
+		await doActions(action)
+	})
 }
 
 init()
