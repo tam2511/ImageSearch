@@ -21,8 +21,6 @@ COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
 # Static build
 COPY --from=builder /server/dist /usr/share/nginx/html
 
-RUN mkdir /usr/share/nginx/html/public
-
 # Set working directory
 WORKDIR /usr/share/nginx/html
 
