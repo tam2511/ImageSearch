@@ -20,7 +20,8 @@ class Handler(object):
         self.search_index = MatrixIndex()
         self.store = AlphabetStore(
             images_path=self.cfg['store']['images_path'],
-            max_size=self.cfg['store']['max_size']
+            max_size=self.cfg['store']['max_size'],
+            image_height=self.cfg['store']['image_height']
         )
 
     def upload(

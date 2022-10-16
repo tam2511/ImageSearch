@@ -1,7 +1,9 @@
 import math
 from typing import List, Tuple, Dict
 import os
+import io
 
+from PIL import Image
 import numpy as np
 
 from src.db_utls.base import BaseStore
@@ -18,10 +20,12 @@ class AlphabetStore(BaseStore):
     def __init__(
             self,
             images_path: str,
-            max_size: int = 1e+6
+            max_size: int = 1e+6,
+            image_height: int = 160
     ):
         self.images_path = images_path
         self.max_size = max(max_size, len(alphabets) + 1)
+        self.image_height = image_height
 
         self.num_levels = math.ceil(math.log(max_size, len(alphabets)))
 
@@ -59,8 +63,11 @@ class AlphabetStore(BaseStore):
             name = f'{image_path[-1]}.png'
             dest_image_path = os.path.join(self.images_path, *dirs, name)
             os.makedirs(os.path.dirname(dest_image_path), exist_ok=True)
-            with open(dest_image_path, 'wb') as file:
-                file.write(image)
+
+            image = Image.open(io.BytesIO(image))
+            width, height = image.size
+            image = image.resize((width * 160 // height, 160))
+            image.save(dest_image_path)
 
         self.images_paths = np.concatenate((self.images_paths, images_paths))
         return residue if residue < len(images) else len(images)

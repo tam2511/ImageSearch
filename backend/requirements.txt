@@ -5,3 +5,4 @@ torch
 requests
 fastapi-pagination
 numpy
+Pillow
