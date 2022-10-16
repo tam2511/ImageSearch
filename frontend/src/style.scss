@@ -10,13 +10,13 @@
 }
 main {
   display: flex;
+  background: #fdfdfd;
 
   @media screen and (max-width: 1024px) {
     flex-flow: row wrap;
   }
   @media screen and (min-width: 480px) {
     margin: 0 auto;
-    max-width: 90%;
   }
 }
 

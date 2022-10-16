@@ -6,8 +6,10 @@
   --total-gap-width: calc(var(--gap-count) * var(--grid-layout-gap));
   --grid-item--max-width: calc((100% - var(--total-gap-width)) / var(--grid-column-count));
 
-  margin-top: 20px;
   width: 100%;
+  padding: 20px;
+  margin: 0;
+  background: #f7f7f7;
 
   &-images {
     display: grid;
@@ -15,7 +17,10 @@
     grid-gap: 15px;
     height: calc(100vh - 120px);
     overflow-y: auto;
-    margin: 0 20px;
+    margin: 0;
+    padding: 10px;
+    box-shadow: rgba(1, 0, 10, 0.05) 5px 0 10px 2px;
+    background: white;
 
     @media screen and (max-width: 1024px)  {
       height: calc(100vh - 365px);
