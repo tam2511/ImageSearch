@@ -1,12 +1,26 @@
 from fastapi import FastAPI, File, UploadFile
 from fastapi_pagination import paginate, add_pagination, LimitOffsetPage
 from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
 
 from src.handler import Handler
 
 handler = Handler()
 
 app = FastAPI()
+
+
+origins = [
+    "http://localhost:22222",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 class ImageResult(BaseModel):
