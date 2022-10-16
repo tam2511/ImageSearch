@@ -22,7 +22,12 @@
 					<form class='search-image__form' enctype="multipart/form-data">
 						<input id='image-upload' class='input input-file is-hidden' type='file' accept="image/*" placeholder="Upload an image">
 						<label for='image-upload' class='btn-2'>Choose image</label>
-						<button data-action='initial-search' type='button'>Search</button>
+						<button data-action='initial-search' type='button'>
+							<svg class="spinner" viewBox="0 0 50 50">
+								<circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+							</svg>
+							<span data-action='initial-search'>Search</span>
+						</button>
 					</form>
 					<div class="user-file">
 						<img class="user-file_preview" src="" alt="" height="200" width='250'>
@@ -34,7 +39,7 @@
 							<svg class="spinner" viewBox="0 0 50 50">
 								<circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
 							</svg>
-							<span>Upload zip</span>
+							<span data-action='upload-zip'>Upload zip</span>
 						</button>
 					</form>
 				</section>

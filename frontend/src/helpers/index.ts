@@ -15,7 +15,7 @@ const createImage = (imageItem: ImageItem) => {
 		<figure>
 			<img src="${imageItem.image_path}"
 					 alt="${imageItem.id}">
-			<figcaption>Score: ${imageItem.score}</figcaption>
+			<figcaption>Score: ${imageItem.score.toFixed(2)}</figcaption>
 		</figure>
 	`
 }
@@ -70,7 +70,7 @@ const getImages = async (offset: number) => {
 	} catch (e) {
 		console.error('getImages, e:',e)
 	} finally {
-		if (uploadButton) imageInput.classList.remove('is-loading')
+		if (uploadButton) uploadButton.classList.remove('is-loading')
 	}
 
 	return response
