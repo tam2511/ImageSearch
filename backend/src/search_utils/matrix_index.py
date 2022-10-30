@@ -19,7 +19,7 @@ class MatrixIndex(BaseIndex):
         start_time = time()
         dists = torch.matmul(vector, self.matrix.t())
         matmul_end_time = time()
-        scores, idxs = torch.sort(dists)
+        scores, idxs = torch.sort(dists, descending=True)
         sort_end_time = time()
         logging.info(
             'matrix query search statistics: matmul time {:.4f}, sorting time {:.4f}'.format(
