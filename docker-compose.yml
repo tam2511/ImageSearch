@@ -14,7 +14,7 @@ services:
       FASTAPI_PORT: 11111
     volumes:
       - type: bind
-        source: "data"
+        source: "./data"
         target: /mnt
 
       - static-content:/images
