@@ -1,0 +1,54 @@
+version: "3.9"
+services:
+  backend:
+    build: ./backend
+    image: "image_search/backend:0.1"
+    ports:
+      - "11111:11111"
+    expose:
+      - 11111
+    networks:
+      - docker_network
+    environment:
+      BACKEND_CONFIG: "/mnt/backend.config"
+      FASTAPI_PORT: 11111
+    volumes:
+      - type: bind
+        source: "./data"
+        target: /mnt
+
+      - static-content:/images
+
+  frontend:
+    build: ./frontend
+    image: "image_search/frontend:0.1"
+    ports:
+      - "22222:22222"
+    expose:
+      - 22222
+    networks:
+      - docker_network
+    volumes:
+      - static-content:/usr/share/nginx/html
+
+  torch_serve_service:
+    build: ./torch_serve_example
+    image: "image_search/torch_serve:0.1"
+    expose:
+      - 8080
+    ports:
+      - "8080:8080"
+    networks:
+      - docker_network
+    command:
+      - torchserve --start
+      - --model-store=/tmp/model_store
+      - --models=edgenext=edgenext_arcface.mar
+      - --ts-config=config.properties
+
+networks:
+  docker_network:
+    driver: bridge
+
+volumes:
+  static-content:

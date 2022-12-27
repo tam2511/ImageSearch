@@ -1,0 +1,24 @@
+{
+  "name": "frontend",
+  "private": true,
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "prettier": "^2.7.1",
+    "sass": "^1.53.0",
+    "typescript": "^4.5.4",
+    "vite": "^3.1.6"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "semi": false,
+    "trailingComma": "none",
+    "arrowParens": "always",
+    "tabWidth": 4,
+    "useTabs": true
+  }
+}
